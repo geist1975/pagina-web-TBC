@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Tienda de Lencería</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/heroicons/2.0.18/24/outline/heroicons.min.css" rel="stylesheet">
+    <style>
+        /* Estilos personalizados adicionales si son necesarios */
+        body {
+            font-family: 'Inter', sans-serif; /* Fuente limpia y moderna, similar a la que usa Tailwind */
+            background-color: #fdf2f8; /* Un rosa muy pálido para el fondo */
+        }
+        .whatsapp-button {
+            background-color: #25D366; /* Color oficial de WhatsApp */
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .whatsapp-button:hover {
+            background-color: #1DAE54; /* Un verde más oscuro para el hover */
+        }
+        .product-card {
+            background-color: white;
+            border-radius: 0.75rem; /* Bordes redondeados */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden; /* Para que la imagen no se salga de los bordes redondeados */
+        }
+        .product-card:hover {
+            transform: translateY(-5px); /* Ligero efecto de elevación al pasar el cursor */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .product-image {
+            aspect-ratio: 3 / 4; /* Proporción común para fotos de lencería */
+            object-fit: cover; /* Asegura que la imagen cubra el espacio sin deformarse */
+        }
+        .buy-button {
+            background-color: #ec4899; /* Rosa vibrante para comprar */
+        }
+        .buy-button:hover {
+            background-color: #db2777; /* Rosa más oscuro */
+        }
+
+        /* Estilos para el modal de confirmación/instrucciones */
+        .modal {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .close-button {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close-button:hover,
+        .close-button:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <header class="py-8 text-center bg-white shadow-md">
+        <h1 class="text-4xl font-bold text-pink-600">💖 TO BE CONTINUED 💖</h1>
+        <p class="text-lg text-gray-600 mt-2">Descubre lo que realza tu belleza.</p>
+    </header>
+
+    <main class="container mx-auto px-4 py-12">
+
+        <section id="hero-catalog-cta" class="text-center mb-16 p-8 bg-white rounded-lg shadow-lg">
+            <h2 class="text-3xl font-semibold mb-4 text-pink-500">¿Quieres ver nuestro catálogo completo?</h2>
+            <p class="text-gray-700 mb-6">Contáctanos por WhatsApp y te lo enviaremos al instante.</p>
+            <button id="request-catalog-btn" class="whatsapp-button font-semibold py-3 px-6 rounded-lg inline-flex items-center text-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.5A2.25 2.25 0 015.25 21h13.5A2.25 2.25 0 0121 18.75V16.5c0-1.242-.933-2.25-2.085-2.25H5.25A2.25 2.25 0 013 16.5v2.25z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12V6.75A2.25 2.25 0 0014.25 4.5h-8.5A2.25 2.25 0 003.501 6.75V12c0 1.242.933 2.25 2.084 2.25H14.25A2.25 2.25 0 0016.5 12z" />
+                </svg>
+                Pedir Catálogo por WhatsApp
+            </button>
+        </section>
+
+        <section id="product-catalog">
+            <h2 class="text-3xl font-bold text-center mb-10 text-pink-600">Nuestra Colección Exclusiva</h2>
+            
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="product-card flex flex-col">
+                    <img src="https://i.ibb.co/bgh8SFW1/DSCN0976.jpg" alt="Conjunto de lencería elegante color rosa" class="product-image w-full">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-semibold mb-2 text-pink-700">Conjunto "Seducción Floral"</h3>
+                        <p class="text-gray-600 mb-4 text-sm flex-grow">Delicado encaje con detalles florales. Perfecto para ocasiones especiales.</p>
+                        <div class="mt-auto">
+                            <label for="size-product-1" class="block text-sm font-medium text-gray-700 mb-1">Talla:</label>
+                            <select id="size-product-1" class="size-select w-full p-2 border border-gray-300 rounded-md mb-4 focus:ring-pink-500 focus:border-pink-500">
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                            </select>
+                            <button class="buy-button w-full whatsapp-button font-semibold py-2 px-4 rounded-md inline-flex items-center justify-center" data-product-name="Conjunto Seducción Floral">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                </svg>
+                                Comprar por WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card flex flex-col">
+                    <img src="https://placehold.co/600x800/fce7f3/c026d3?text=Lencería+Modelo+B" alt="Body de encaje negro" class="product-image w-full">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-semibold mb-2 text-pink-700">Body "Noche Encantada"</h3>
+                        <p class="text-gray-600 mb-4 text-sm flex-grow">Elegante body de encaje negro, ideal para sentirte poderosa y cómoda.</p>
+                        <div class="mt-auto">
+                            <label for="size-product-2" class="block text-sm font-medium text-gray-700 mb-1">Talla:</label>
+                            <select id="size-product-2" class="size-select w-full p-2 border border-gray-300 rounded-md mb-4 focus:ring-pink-500 focus:border-pink-500">
+                                <option value="XS">XS</option>
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                            </select>
+                            <button class="buy-button w-full whatsapp-button font-semibold py-2 px-4 rounded-md inline-flex items-center justify-center" data-product-name="Body Noche Encantada">
+                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                </svg>
+                                Comprar por WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card flex flex-col">
+                     <img src="https://placehold.co/600x800/f0abfc/a21caf?text=Lencería+Modelo+C" alt="Pijama de seda" class="product-image w-full">
+                    <div class="p-6 flex flex-col flex-grow">
+                        <h3 class="text-2xl font-semibold mb-2 text-pink-700">Pijama "Sueño de Seda"</h3>
+                        <p class="text-gray-600 mb-4 text-sm flex-grow">Conjunto de pijama de seda suave y lujoso para un descanso perfecto.</p>
+                         <div class="mt-auto">
+                            <label for="size-product-3" class="block text-sm font-medium text-gray-700 mb-1">Talla:</label>
+                            <select id="size-product-3" class="size-select w-full p-2 border border-gray-300 rounded-md mb-4 focus:ring-pink-500 focus:border-pink-500">
+                                <option value="S">S</option>
+                                <option value="M">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                            </select>
+                            <button class="buy-button w-full whatsapp-button font-semibold py-2 px-4 rounded-md inline-flex items-center justify-center" data-product-name="Pijama Sueño de Seda">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
+                                </svg>
+                                Comprar por WhatsApp
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div> </section>
+    </main>
+
+    <footer class="text-center py-8 mt-12 bg-pink-100 border-t border-pink-200">
+        <p class="text-pink-700">&copy; <span id="current-year"></span> Nombre de tu Tienda de Lencería. Todos los derechos reservados.</p>
+        <p class="text-sm text-pink-500 mt-1">Diseñado con cariño para ti.</p>
+    </footer>
+
+    <div id="whatsapp-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button" onclick="closeModal()">&times;</span>
+            <h3 id="modal-title" class="text-2xl font-semibold mb-3 text-pink-600">¡Listo para chatear!</h3>
+            <p id="modal-message" class="mb-4 text-gray-700">Serás redirigido a WhatsApp para continuar con tu pedido.</p>
+            <img src="https://placehold.co/100x100/25D366/FFFFFF?text=WhatsApp" alt="WhatsApp Icon" class="mx-auto mb-4 rounded-full">
+            <button onclick="proceedToWhatsApp()" class="whatsapp-button font-semibold py-2 px-6 rounded-lg">Continuar a WhatsApp</button>
+        </div>
+    </div>
+
+    <script>
+        // IMPORTANTE: Reemplaza esto con tu número de WhatsApp real, incluyendo el código de país.
+        // Ejemplo para Ecuador: "+593991234567"
+        const tuNumeroWhatsApp = "+593998624849"; // <--- ¡REEMPLAZA ESTO!
+
+        const requestCatalogBtn = document.getElementById('request-catalog-btn');
+        const buyButtons = document.querySelectorAll('.buy-button'); // Selecciona todos los botones de compra
+        const yearSpan = document.getElementById('current-year');
+        yearSpan.textContent = new Date().getFullYear();
+
+        // Modal elements
+        const modal = document.getElementById('whatsapp-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalMessage = document.getElementById('modal-message');
+        let currentWhatsAppUrl = '';
+
+        function openModal(title, message, whatsAppUrl) {
+            modalTitle.textContent = title;
+            modalMessage.innerHTML = message; // Usar innerHTML para permitir saltos de línea si es necesario
+            currentWhatsAppUrl = whatsAppUrl;
+            modal.style.display = "flex";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        function proceedToWhatsApp() {
+            if (currentWhatsAppUrl) {
+                window.open(currentWhatsAppUrl, '_blank');
+            }
+            closeModal();
+        }
+
+        // Cierra el modal si se hace clic fuera del contenido
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+
+        // Verificar si el número de WhatsApp ha sido configurado
+        if (tuNumeroWhatsApp === "TUNUMERODEWHATSAPP" || tuNumeroWhatsApp === "") {
+            alert("¡Atención! Debes configurar tu número de WhatsApp en el código JavaScript (variable 'tuNumeroWhatsApp') para que los botones funcionen correctamente.");
+        }
+
+        // Botón para pedir catálogo general
+        if (requestCatalogBtn) {
+            requestCatalogBtn.addEventListener('click', function() {
+                if (tuNumeroWhatsApp === "TUNUMERODEWHATSAPP" || tuNumeroWhatsApp === "") {
+                     alert("Por favor, configura primero tu número de WhatsApp en el código.");
+                     return;
+                }
+                const mensajeCatalogo = encodeURIComponent("¡Hola! Me gustaría recibir el catálogo de lencería. ¡Gracias!");
+                const whatsappLink = `https://wa.me/${tuNumeroWhatsApp.replace('+', '')}?text=${mensajeCatalogo}`;
+                
+                openModal(
+                    "Solicitar Catálogo",
+                    `Estás a punto de enviar un mensaje para solicitar nuestro catálogo completo.<br><br><strong>Destinatario:</strong> ${tuNumeroWhatsApp}`,
+                    whatsappLink
+                );
+            });
+        }
+
+        // Botones de "Comprar" para cada producto
+        buyButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                if (tuNumeroWhatsApp === "TUNUMERODEWHATSAPP" || tuNumeroWhatsApp === "") {
+                     alert("Por favor, configura primero tu número de WhatsApp en el código.");
+                     return;
+                }
+
+                const productCard = this.closest('.product-card'); // Encuentra la tarjeta de producto más cercana
+                const productName = this.dataset.productName; // Obtiene el nombre del producto del atributo data
+                const sizeSelect = productCard.querySelector('.size-select'); // Encuentra el selector de talla dentro de la tarjeta
+                const selectedSize = sizeSelect.value;
+
+                if (!productName) {
+                    console.error("Error: Nombre del producto no encontrado. Asegúrate de que el botón 'Comprar' tenga el atributo 'data-product-name'.");
+                    alert("Error al procesar el producto. Por favor, contacta al administrador.");
+                    return;
+                }
+                if (!selectedSize) {
+                    alert("Por favor, selecciona una talla.");
+                    return;
+                }
+
+                const mensajeCompra = encodeURIComponent(`¡Hola! Estoy interesada en el modelo "${productName}", talla ${selectedSize}. ¿Podrían darme más información o ayudarme a completar la compra?`);
+                const whatsappLink = `https://wa.me/${tuNumeroWhatsApp.replace('+', '')}?text=${mensajeCompra}`;
+                
+                openModal(
+                    "Confirmar Pedido",
+                    `Vas a consultar por el modelo: <strong>${productName}</strong><br>Talla: <strong>${selectedSize}</strong><br><br>Serás redirigido/a a WhatsApp.`,
+                    whatsappLink
+                );
+            });
+        });
+    </script>
+
+</body>
+</html>
